@@ -1,0 +1,38 @@
+{
+  "name": "mls-platform",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A Modern Personal Log Website Space",
+  "author": "MYXXTS",
+  "license": "AGPL-3.0-only",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "install": "pnpm -r install",
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
+    "build-only": "pnpm -r build-only",
+    "preview": "pnpm -r preview",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "type-check": "pnpm -r type-check",
+    "server": "cd server && mvn spring-boot:run",
+    "server:dev": "cd server && mvn spring-boot:run -Dspring-boot.run.profiles=dev",
+    "server:prod": "cd server && mvn spring-boot:run -Dspring-boot.run.profiles=prod",
+    "server:build": "cd server && mvn clean package",
+    "version:patch": "pnpm version patch && cd server && mvn versions:set -DnewVersion=$(node -p \"require('../package.json').version\") && cd ..",
+    "version:minor": "pnpm version patch && cd server && mvn versions:set -DnewVersion=$(node -p \"require('../package.json').version\") && cd ..",
+    "version:major": "pnpm version patch && cd server && mvn versions:set -DnewVersion=$(node -p \"require('../package.json').version\") && cd .."
+  },
+  "dependencies": {
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "eslint": "^9.14.0",
+    "prettier": "^3.3.3",
+    "typescript": "~5.6.3"
+  },
+  "packageManager": "pnpm@9.15.2"
+}
