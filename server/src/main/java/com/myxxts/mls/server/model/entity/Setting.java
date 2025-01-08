@@ -1,4 +1,4 @@
-package com.myxxts.mls.server.module.entity;
+package com.myxxts.mls.server.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

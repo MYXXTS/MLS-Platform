@@ -1,4 +1,4 @@
-package com.myxxts.mls.server.model;
+package com.myxxts.mls.server.model.common;
 
 import lombok.Data;
 

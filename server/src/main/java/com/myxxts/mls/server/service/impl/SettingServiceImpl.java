@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
-import com.myxxts.mls.server.module.entity.Setting;
+import com.myxxts.mls.server.model.entity.Setting;
 import com.myxxts.mls.server.repository.SettingRepository;
 import com.myxxts.mls.server.service.SettingService;
 

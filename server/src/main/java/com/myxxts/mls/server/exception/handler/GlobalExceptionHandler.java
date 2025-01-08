@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.myxxts.mls.server.exception.SystemNotInitializedException;
-import com.myxxts.mls.server.model.HttpResponse;
+import com.myxxts.mls.server.model.common.HttpResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

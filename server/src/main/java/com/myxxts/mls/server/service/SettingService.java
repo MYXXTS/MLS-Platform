@@ -2,7 +2,7 @@ package com.myxxts.mls.server.service;
 
 import java.util.HashMap;
 
-import com.myxxts.mls.server.module.entity.Setting;
+import com.myxxts.mls.server.model.entity.Setting;
 
 public interface SettingService {
 

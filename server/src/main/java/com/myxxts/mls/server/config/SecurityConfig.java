@@ -12,14 +12,14 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.myxxts.mls.server.config.filter.InitializeFilter;
+import com.myxxts.mls.server.config.filter.SystemInitializationFilter;
 
 @Configuration
 public class SecurityConfig {
 
-  private final InitializeFilter initializeFilter;
+  private final SystemInitializationFilter initializeFilter;
 
-  public SecurityConfig (InitializeFilter initializeFilter) {
+  public SecurityConfig (SystemInitializationFilter initializeFilter) {
 
     this.initializeFilter = initializeFilter;
 
