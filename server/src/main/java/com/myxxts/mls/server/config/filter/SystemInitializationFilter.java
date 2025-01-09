@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.util.AntPathMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myxxts.mls.server.model.ErrorResponse;
+import com.myxxts.mls.server.model.common.ErrorResponse;
 import com.myxxts.mls.server.service.SettingService;
 
 import jakarta.servlet.FilterChain;
@@ -16,16 +16,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class InitializeFilter extends OncePerRequestFilter {
+public class SystemInitializationFilter extends AbstractFilter {
 
-  private final SettingService settingService;
+  public SystemInitializationFilter (
+    SettingService settingService,
+    ObjectMapper objectMapper,
+    AntPathMatcher antPathMatcher
+  ) {
 
-  private final ObjectMapper objectMapper;
-
-  public InitializeFilter (SettingService settingService, ObjectMapper objectMapper) {
-
-    this.settingService = settingService;
-    this.objectMapper = objectMapper;
+    super(settingService, objectMapper, antPathMatcher);
 
   }
 
