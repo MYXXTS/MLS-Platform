@@ -9,8 +9,8 @@
     "apps/*"
   ],
   "scripts": {
-    "install": "pnpm -r install",
     "dev": "pnpm -r dev",
+    "dev:host": "pnpm -r dev --host",
     "build": "pnpm -r build",
     "build-only": "pnpm -r build-only",
     "preview": "pnpm -r preview",
