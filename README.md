@@ -48,6 +48,7 @@ This project is licensed under the AGPL-3.0 License. See the [LICENSE](LICENSE) 
 > - [Vue.js](https://vuejs.org/)
 > - [Nuxt](https://nuxt.com/)
 > - [Spring](https://spring.io/)
+> - [Halo](https://github.com/halo-dev/halo)
 > - [Mix Space Core](https://github.com/mx-space/core)
 > - [Shiro](https://github.com/Innei/Shiro)
 
