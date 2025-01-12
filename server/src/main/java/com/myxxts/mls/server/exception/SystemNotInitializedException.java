@@ -1,10 +1,19 @@
 package com.myxxts.mls.server.exception;
 
-public class SystemNotInitializedException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class SystemNotInitializedException extends AbstractMLSBaseException {
 
   public SystemNotInitializedException (String message) {
 
     super(message);
+
+  }
+
+  @Override
+  public HttpStatus geHttpStatus () {
+
+    return HttpStatus.SERVICE_UNAVAILABLE;
 
   }
 
