@@ -5,20 +5,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.myxxts.mls.server.model.common.HttpResponse;
+import com.myxxts.mls.server.model.common.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(SystemNotInitializedException.class)
-    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    public HttpResponse<?> handleSystemNotInitialized(SystemNotInitializedException e) {
-        return HttpResponse.error(503, e.getMessage());
+    @ExceptionHandler (SystemNotInitializedException.class)
+    @ResponseStatus (HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorResponse handleSystemNotInitialized (SystemNotInitializedException e) {
+        return ErrorResponse.of(503, e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public HttpResponse<?> handleGlobalException(Exception e) {
-        return HttpResponse.error(500, e.getMessage());
+    @ExceptionHandler (Exception.class)
+    @ResponseStatus (HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleGlobalException (Exception e) {
+        return ErrorResponse.of(500, e.getMessage());
     }
 }

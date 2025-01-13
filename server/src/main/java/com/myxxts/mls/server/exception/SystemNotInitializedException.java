@@ -11,7 +11,7 @@ public class SystemNotInitializedException extends AbstractMLSBaseException {
   }
 
   @Override
-  public HttpStatus geHttpStatus () {
+  public HttpStatus getHttpStatus () {
 
     return HttpStatus.SERVICE_UNAVAILABLE;
 
