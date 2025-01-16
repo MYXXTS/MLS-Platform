@@ -18,20 +18,19 @@ public class SettingServiceImpl implements SettingService {
   private final SettingRepository settingRepository;
 
   public SettingServiceImpl (SettingRepository settingRepository) {
-
     this.settingRepository = settingRepository;
-
   }
 
   @Override
   @PostConstruct
   public void init () {
 
-    if (settingRepository.findByName("System Config").isEmpty()) {
+    if (settingRepository.findByName(Setting.SYSTEM_STATUS).isEmpty()) {
       Setting setting = new Setting();
-      setting.setName("System Config");
-      HashMap<String, String> properties = new HashMap<>();
-      properties.put("isInitialized", "false");
+      setting.setName(Setting.SYSTEM_STATUS);
+      HashMap<String, Object> properties = new HashMap<>();
+      // 初始化状态
+      properties.put("Initialized", false);
       setting.setProperties(properties);
       settingRepository.save(setting);
     }
@@ -39,17 +38,13 @@ public class SettingServiceImpl implements SettingService {
   }
 
   @Override
-  public HashMap<String, String> getProperties (String name) {
-
+  public HashMap<String, Object> getProperties (String name) {
     return getSetting(name).getProperties();
-
   }
 
   @Override
   public Setting getSetting (String name) {
-
     return settingRepository.findByName(name).orElseThrow();
-
   }
 
 }

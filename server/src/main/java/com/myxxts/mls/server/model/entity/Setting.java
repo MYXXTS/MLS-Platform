@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Setting {
 
+  public static final String SYSTEM_STATUS = "System Status";
+
   @Id
   private ObjectId id = new ObjectId();
 
@@ -24,6 +26,6 @@ public class Setting {
 
   private LocalDateTime updateTime;
 
-  private HashMap<String, String> properties;
+  private HashMap<String, Object> properties;
 
 }
