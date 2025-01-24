@@ -22,8 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.MediaType;
 import com.myxxts.mls.server.model.common.HttpResponse;
 import com.myxxts.mls.server.model.consts.MLSConst;
+import com.myxxts.mls.server.model.entity.User;
 import com.myxxts.mls.server.security.entity.MLSAuthenticationVo;
 import com.myxxts.mls.server.security.filter.MLSAuthenticationFilter;
+import com.myxxts.mls.server.util.JwtUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,6 +35,8 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+  private final JwtUtil jwtUtil;
 
   private final ObjectMapper objectMapper;
 
@@ -96,7 +100,10 @@ public class SecurityConfig {
   ) throws IOException {
     response.setContentType(MediaType.JSON_UTF_8.toString());
     MLSAuthenticationVo mlsAuthenticationVo = new MLSAuthenticationVo();
-    BeanUtils.copyProperties(authentication.getPrincipal(), mlsAuthenticationVo);
+    User principal = (User) authentication.getPrincipal();
+    BeanUtils.copyProperties(principal, mlsAuthenticationVo);
+    mlsAuthenticationVo.setAccessToken(jwtUtil.generateAccessToken(principal, null));
+    mlsAuthenticationVo.setRefreshToken(jwtUtil.generateRefreshToken(principal, null));
     HttpResponse<MLSAuthenticationVo> result = HttpResponse.success(mlsAuthenticationVo, "Login Success.");
     response.getWriter().write(objectMapper.writeValueAsString(result));
   }
