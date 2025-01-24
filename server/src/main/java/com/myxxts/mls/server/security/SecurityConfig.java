@@ -1,8 +1,6 @@
 package com.myxxts.mls.server.security;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
@@ -24,11 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.MediaType;
 import com.myxxts.mls.server.model.common.HttpResponse;
 import com.myxxts.mls.server.model.consts.MLSConst;
-import com.myxxts.mls.server.model.vo.UserVo;
+import com.myxxts.mls.server.security.entity.MLSAuthenticationVo;
 import com.myxxts.mls.server.security.filter.MLSAuthenticationFilter;
-import com.myxxts.mls.server.service.UserService;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  @Resource
-  private final UserService userService;
+  private final ObjectMapper objectMapper;
 
   private final AuthenticationConfiguration authenticationConfiguration;
 
@@ -100,11 +95,10 @@ public class SecurityConfig {
     Authentication authentication
   ) throws IOException {
     response.setContentType(MediaType.JSON_UTF_8.toString());
-    UserVo userVo = new UserVo();
-    BeanUtils.copyProperties(authentication, userVo);
-    HttpResponse<UserVo> result = HttpResponse.success(userVo, "Login Success.");;
-
-    response.getWriter().write(new ObjectMapper().writeValueAsString(result));
+    MLSAuthenticationVo mlsAuthenticationVo = new MLSAuthenticationVo();
+    BeanUtils.copyProperties(authentication.getPrincipal(), mlsAuthenticationVo);
+    HttpResponse<MLSAuthenticationVo> result = HttpResponse.success(mlsAuthenticationVo, "Login Success.");
+    response.getWriter().write(objectMapper.writeValueAsString(result));
   }
 
   // 认证失败处理
@@ -113,13 +107,10 @@ public class SecurityConfig {
     HttpServletResponse response,
     AuthenticationException exception
   ) throws IOException {
-    response.setContentType("application/json;charset=UTF-8");
+    response.setContentType(MediaType.JSON_UTF_8.toString());
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-    Map<String, Object> result = new HashMap<>();
-    result.put("code", 401);
-    result.put("message", "登录失败：" + exception.getMessage());
-
+    HttpResponse<MLSAuthenticationVo> result = HttpResponse
+      .error(HttpServletResponse.SC_UNAUTHORIZED, "Login Failure." + exception.getMessage());
     response.getWriter().write(new ObjectMapper().writeValueAsString(result));
   }
 
@@ -129,13 +120,10 @@ public class SecurityConfig {
     HttpServletResponse response,
     AuthenticationException exception
   ) throws IOException {
-    response.setContentType("application/json;charset=UTF-8");
+    response.setContentType(MediaType.JSON_UTF_8.toString());
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-    Map<String, Object> result = new HashMap<>();
-    result.put("code", 401);
-    result.put("message", "请先登录");
-
+    HttpResponse<MLSAuthenticationVo> result = HttpResponse
+      .error(HttpServletResponse.SC_UNAUTHORIZED, "Please Login First.");
     response.getWriter().write(new ObjectMapper().writeValueAsString(result));
   }
 
@@ -145,13 +133,10 @@ public class SecurityConfig {
     HttpServletResponse response,
     AccessDeniedException exception
   ) throws IOException {
-    response.setContentType("application/json;charset=UTF-8");
+    response.setContentType(MediaType.JSON_UTF_8.toString());
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-
-    Map<String, Object> result = new HashMap<>();
-    result.put("code", 403);
-    result.put("message", "权限不足");
-
+    HttpResponse<MLSAuthenticationVo> result = HttpResponse
+      .error(HttpServletResponse.SC_FORBIDDEN, "Access Denied.");
     response.getWriter().write(new ObjectMapper().writeValueAsString(result));
   }
 
