@@ -2,12 +2,9 @@ package com.myxxts.mls.server.model.common;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.Data;
 
 @Data
-@JsonInclude (JsonInclude.Include.NON_NULL)
 public class HttpResponse<T> {
 
   private int code;
@@ -22,6 +19,22 @@ public class HttpResponse<T> {
     HttpResponse<T> response = new HttpResponse<>();
     response.setCode(200);
     response.setMessage("success");
+    response.setData(data);
+    return response;
+  }
+
+  public static <T> HttpResponse<T> success (String message) {
+    HttpResponse<T> response = new HttpResponse<>();
+    response.setCode(200);
+    response.setMessage(message);
+    response.setData(null);
+    return response;
+  }
+
+  public static <T> HttpResponse<T> success (T data, String message) {
+    HttpResponse<T> response = new HttpResponse<>();
+    response.setCode(200);
+    response.setMessage(message);
     response.setData(data);
     return response;
   }
