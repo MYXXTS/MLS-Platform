@@ -25,6 +25,7 @@ import com.myxxts.mls.server.model.consts.MLSConst;
 import com.myxxts.mls.server.model.entity.User;
 import com.myxxts.mls.server.security.entity.MLSAuthenticationVo;
 import com.myxxts.mls.server.security.filter.MLSAuthenticationFilter;
+import com.myxxts.mls.server.security.filter.SystemStatusCheckFilter;
 import com.myxxts.mls.server.util.JwtUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity (debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -41,6 +42,8 @@ public class SecurityConfig {
   private final ObjectMapper objectMapper;
 
   private final AuthenticationConfiguration authenticationConfiguration;
+
+  private final SystemStatusCheckFilter systemStatusCheckFilter;
 
   @Bean
   SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
@@ -74,6 +77,7 @@ public class SecurityConfig {
           .anyRequest()
           .authenticated()
       )
+      .addFilterBefore(systemStatusCheckFilter, UsernamePasswordAuthenticationFilter.class)
       .addFilterAt(mlsAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
       .exceptionHandling(
         exception -> exception
